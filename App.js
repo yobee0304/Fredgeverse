@@ -1,7 +1,10 @@
+import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './screen/home';
 import AddIngredients from './screen/ingredient/addIngredients';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (

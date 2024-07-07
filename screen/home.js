@@ -7,7 +7,7 @@ const Home = ({ navigation }) => {
             <Text style={styles.title}></Text>
             <Button
                 title="재료 추가하기"
-                onPress={() => navigation.navigation('AddIngredients')}
+                onPress={() => navigation.navigate('AddIngredients')}
             />
         </View>
     );
