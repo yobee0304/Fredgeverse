@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -24,10 +24,27 @@ const AddIngredients = () => {
   ]);
   const [selectedUnit, setSelectedUnit] = useState('그램');
 
+  useEffect(() => {
+    if (openCategory) {
+        setOpenUnit(false);
+    }
+  }, [openCategory]);
+
+  useEffect(() => {
+    if (openUnit) {
+        setOpenCategory(false);
+    }
+  }, [openUnit]);
+
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || expiryDate;
     setShowDatePicker(false);
     setExpiryDate(currentDate);
+  };
+
+  const closeDropDowns = () => {
+    setOpenUnit(false);
+    setOpenCategory(false);
   };
 
   return (
@@ -42,10 +59,11 @@ const AddIngredients = () => {
           <View style={styles.formGroup}>
             <Text style={styles.label}>재료 명 :</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { width: '60%' }]}
               placeholder="재료 명"
               value={materialName}
               onChangeText={setMaterialName}
+              onPress={closeDropDowns}
             />
           </View>
           
@@ -63,14 +81,15 @@ const AddIngredients = () => {
             />
           </View>
           
-          <View style={[styles.formGroup, { zIndex: 1000 }]}>
+          <View style={[styles.formGroup, { zIndex: 900 }]}>
             <Text style={styles.label}>제품 양 :</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { width: '20%' }]}
               placeholder="0"
               keyboardType="numeric"
               value={quantity}
               onChangeText={setQuantity}
+              onPress={closeDropDowns}
             />
             <DropDownPicker
               open={openUnit}
@@ -79,8 +98,8 @@ const AddIngredients = () => {
               setOpen={setOpenUnit}
               setValue={setSelectedUnit}
               setItems={setUnits}
-              style={[styles.dropdown, { width: 100, marginLeft: 10 }]}
-              dropDownContainerStyle={[styles.dropdownContainer, { width: 100, marginLeft: 10 }]}
+              style={[styles.dropdown, { marginLeft: 10 }]}
+              dropDownContainerStyle={[styles.dropdownContainer, { marginLeft: 10 }]}
             />
           </View>
           
@@ -142,11 +161,13 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 5,
     backgroundColor: '#fff',
+    width: 100
   },
   dropdownContainer: {
     borderWidth: 1,
     borderColor: '#ccc',
     backgroundColor: '#fff',
+    width: 100
   },
   dateText: {
     fontSize: 18,
