@@ -42,6 +42,17 @@ const AddIngredients = () => {
     setExpiryDate(currentDate);
   };
 
+  const handleOutsidePress = () => {
+    Keyboard.dismiss();
+
+    if (openCategory) {
+      setOpenCategory(false);
+    }
+    if (openUnit) {
+      setOpenUnit(false);
+    }
+  };
+
   const closeDropDowns = () => {
     setOpenUnit(false);
     setOpenCategory(false);
@@ -52,7 +63,7 @@ const AddIngredients = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TouchableWithoutFeedback onPress={handleOutsidePress}>
         <View style={styles.innerContainer}>
           <Text style={styles.header}>재료 추가 하기</Text>
           
@@ -66,19 +77,19 @@ const AddIngredients = () => {
               onPress={closeDropDowns}
             />
           </View>
-          
+
           <View style={[styles.formGroup, { zIndex: 1000 }]}>
             <Text style={styles.label}>카테고리 :</Text>
-            <DropDownPicker
-              open={openCategory}
-              value={category}
-              items={items}
-              setOpen={setOpenCategory}
-              setValue={setCategory}
-              setItems={setItems}
-              style={styles.dropdown}
-              dropDownContainerStyle={styles.dropdownContainer}
-            />
+              <DropDownPicker
+                open={openCategory}
+                value={category}
+                items={items}
+                setOpen={setOpenCategory}
+                setValue={setCategory}
+                setItems={setItems}
+                style={styles.dropdown}
+                dropDownContainerStyle={styles.dropdownContainer}
+              />
           </View>
           
           <View style={[styles.formGroup, { zIndex: 900 }]}>
@@ -118,7 +129,7 @@ const AddIngredients = () => {
             )}
           </View>
           
-          <Button title="확인" onPress={() => console.log('Material added')} />
+          <Button title="확인" onPress={() => console.log(expiryDate)} />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
