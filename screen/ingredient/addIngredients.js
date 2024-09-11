@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Platform, Alert } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { KeyboardAvoidingView } from 'react-native';
@@ -23,6 +23,9 @@ const AddIngredients = () => {
     { label: '개수', value: 'ex' },
   ]);
   const [selectedUnit, setSelectedUnit] = useState('g');
+
+  const refMaterialName = useRef();
+  const refQuantity = useRef();
 
   useEffect(() => {
     if (openCategory) {
@@ -65,7 +68,24 @@ const AddIngredients = () => {
     setDatePickerVisibility(false);
   };
 
+  const validateEmpty = () => {
+    if (materialName === "") {
+      Alert.alert('\"재료 명\" 은 \n필수 입력 값 입니다.');
+      refMaterialName.current.focus();
+    }
+    else if (quantity === "") {
+      Alert.alert('\"제품 양\" 은 \n필수 입력 값 입니다.');
+      refQuantity.current.focus();
+    }
+    else if (expiryDate < new Date()) {
+      Alert.alert('유통기한은 이전 날짜로 설정할 수 없습니다.');
+      showDatePicker();
+    }
+  };
+
   const submitIngredient = () => {
+    validateEmpty();
+
     console.log('<< 재료 정보 >>');
     console.log('재료 명 : ' + materialName);
     console.log('카테고리 : ' + category);
@@ -91,6 +111,7 @@ const AddIngredients = () => {
               value={materialName}
               onChangeText={setMaterialName}
               onPress={closeDropDowns}
+              ref={refMaterialName}
             />
           </View>
 
@@ -117,6 +138,7 @@ const AddIngredients = () => {
               value={quantity}
               onChangeText={setQuantity}
               onPress={closeDropDowns}
+              ref={refQuantity}
             />
             <DropDownPicker
               open={openUnit}
