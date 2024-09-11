@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDownPicker from 'react-native-dropdown-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { KeyboardAvoidingView } from 'react-native';
 
 const AddIngredients = () => {
@@ -9,7 +9,7 @@ const AddIngredients = () => {
   const [category, setCategory] = useState('야채');
   const [quantity, setQuantity] = useState('');
   const [expiryDate, setExpiryDate] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
   const [openUnit, setOpenUnit] = useState(false);
   const [items, setItems] = useState([
@@ -19,10 +19,10 @@ const AddIngredients = () => {
     { label: '생선', value: '생선' },
   ]);
   const [units, setUnits] = useState([
-    { label: '그램', value: '그램' },
-    { label: '개수', value: '개수' },
+    { label: '그램', value: 'g' },
+    { label: '개수', value: 'ex' },
   ]);
-  const [selectedUnit, setSelectedUnit] = useState('그램');
+  const [selectedUnit, setSelectedUnit] = useState('g');
 
   useEffect(() => {
     if (openCategory) {
@@ -36,10 +36,9 @@ const AddIngredients = () => {
     }
   }, [openUnit]);
 
-  const onDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || expiryDate;
-    setShowDatePicker(false);
-    setExpiryDate(currentDate);
+  const onDateChange = (selectedDate) => {
+    setExpiryDate(selectedDate || expiryDate);
+    hideDatePicker();
   };
 
   const handleOutsidePress = () => {
@@ -56,6 +55,23 @@ const AddIngredients = () => {
   const closeDropDowns = () => {
     setOpenUnit(false);
     setOpenCategory(false);
+  };
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const submitIngredient = () => {
+    console.log('<< 재료 정보 >>');
+    console.log('재료 명 : ' + materialName);
+    console.log('카테고리 : ' + category);
+    console.log('제품 양 : ' + quantity);
+    console.log('단위 : ' + selectedUnit);
+    console.log('유통기한 : ' + expiryDate);
   };
 
   return (
@@ -116,20 +132,23 @@ const AddIngredients = () => {
           
           <View style={styles.formGroup}>
             <Text style={styles.label}>유통기한 :</Text>
-            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+            <TouchableOpacity onPress={showDatePicker}>
               <Text style={styles.dateText}>{expiryDate.toISOString().split('T')[0]}</Text>
             </TouchableOpacity>
-            {showDatePicker && (
-              <DateTimePicker
-                value={expiryDate}
-                mode="date"
-                display="default"
-                onChange={onDateChange}
-              />
-            )}
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              display="inline"
+              onConfirm={onDateChange}
+              onCancel={hideDatePicker}
+              locale="ko"
+              isDarkModeEnabled={true}
+              confirmTextIOS="확인"
+              cancelTextIOS="취소"
+            />
           </View>
           
-          <Button title="확인" onPress={() => console.log(expiryDate)} />
+          <Button title="확인" onPress={submitIngredient} />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
