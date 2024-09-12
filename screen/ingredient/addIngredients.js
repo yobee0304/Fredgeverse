@@ -19,8 +19,9 @@ const AddIngredients = () => {
     { label: '생선', value: '생선' },
   ]);
   const [units, setUnits] = useState([
-    { label: '그램', value: 'g' },
     { label: '개수', value: 'ex' },
+    { label: 'g', value: 'g' },
+    { label: 'kg', value: 'kg' },
   ]);
   const [selectedUnit, setSelectedUnit] = useState('g');
 
