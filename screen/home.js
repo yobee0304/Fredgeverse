@@ -9,6 +9,10 @@ const Home = ({ navigation }) => {
                 title="재료 추가하기"
                 onPress={() => navigation.navigate('AddIngredients')}
             />
+            <Button
+                title="재료 조회하기"
+                onPress={() => navigation.navigate('SearchIngredients')}
+            />
         </View>
     );
 };
