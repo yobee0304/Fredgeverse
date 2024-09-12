@@ -15,7 +15,7 @@ export default function App() {
         <Stack.Screen name="Home" component={Home} options={{ title: '홈' }}/>
         <Stack.Screen name="AddIngredients" component={AddIngredients} options={{ title: '재료 추가하기' }}/>
         <Stack.Screen name="SearchIngredients" component={SearchIngredients} options={{ title: '재료 조회하기' }}/>
-        <Stack.Screen name="DetailIngredient" component={DetailIngredient} options={{ title: '재료 상세정보' }}/>
+        <Stack.Screen name="DetailIngredient" component={DetailIngredient} options={{ title: '재료 상세 정보' }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
