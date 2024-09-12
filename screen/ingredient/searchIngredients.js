@@ -48,7 +48,7 @@ const formatQuantity = (quantity, unit) => {
 
 const SearchIngredients = ({ navigation }) => {
     const renderIngredient = ({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('DetailIngredient')}>
+        <TouchableOpacity onPress={() => navigation.navigate('DetailIngredient', { ingredient: item })}>
             <View
                 style={[
                     styles.ingredientContainer,
