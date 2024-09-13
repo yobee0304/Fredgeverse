@@ -2,12 +2,8 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, TouchableWithoutFeedback, Platform } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
 
-const DetailIngredient = ({ route }) => {
+const DetailIngredient = ({ route, navigation }) => {
   const { ingredient } = route.params;
-
-  const editIngredient = () => {
-
-  };
 
   const formatQuantity = (quantity, unit) => {
     return unit === 'ex' ? `${quantity}개` : `${quantity}${unit}`;
@@ -37,7 +33,7 @@ const DetailIngredient = ({ route }) => {
             <Text style={styles.label}>유통기한 : {ingredient.expiryDate}</Text>
           </View>
           
-          <Button title="수정" onPress={editIngredient} />
+          <Button title="수정" onPress={() => navigation.navigate('AddIngredients', { ingredient: ingredient })} />
         </View>
     </KeyboardAvoidingView>
   );

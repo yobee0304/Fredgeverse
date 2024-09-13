@@ -7,7 +7,7 @@ const Home = ({ navigation }) => {
             <Text style={styles.title}></Text>
             <Button
                 title="재료 추가하기"
-                onPress={() => navigation.navigate('AddIngredients')}
+                onPress={() => navigation.navigate('AddIngredients', { ingredient : null })}
             />
             <Button
                 title="재료 조회하기"

@@ -13,7 +13,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={Home} options={{ title: '홈' }}/>
-        <Stack.Screen name="AddIngredients" component={AddIngredients} options={{ title: '재료 추가하기' }}/>
+        <Stack.Screen name="AddIngredients" component={AddIngredients} options={{ title: '재료 정보 입력' }}/>
         <Stack.Screen name="SearchIngredients" component={SearchIngredients} options={{ title: '재료 조회하기' }}/>
         <Stack.Screen name="DetailIngredient" component={DetailIngredient} options={{ title: '재료 상세 정보' }}/>
       </Stack.Navigator>

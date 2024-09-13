@@ -4,11 +4,12 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { KeyboardAvoidingView } from 'react-native';
 
-const AddIngredients = () => {
-  const [materialName, setMaterialName] = useState('');
-  const [category, setCategory] = useState('야채');
-  const [quantity, setQuantity] = useState('');
-  const [expiryDate, setExpiryDate] = useState(new Date());
+const AddIngredients = ({ route }) => {
+  const { ingredient } = route.params;
+  const [materialName, setMaterialName] = useState(ingredient ? ingredient.name : '');
+  const [category, setCategory] = useState(ingredient ? ingredient.category : '야채');
+  const [quantity, setQuantity] = useState(ingredient ? ingredient.quantity : '');
+  const [expiryDate, setExpiryDate] = useState(ingredient ? new Date(ingredient.expiryDate) : new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
   const [openUnit, setOpenUnit] = useState(false);
@@ -23,7 +24,7 @@ const AddIngredients = () => {
     { label: 'g', value: 'g' },
     { label: 'kg', value: 'kg' },
   ]);
-  const [selectedUnit, setSelectedUnit] = useState('g');
+  const [selectedUnit, setSelectedUnit] = useState(ingredient ? ingredient.unit : 'g');
 
   const refMaterialName = useRef();
   const refQuantity = useRef();
@@ -93,6 +94,13 @@ const AddIngredients = () => {
     console.log('제품 양 : ' + quantity);
     console.log('단위 : ' + selectedUnit);
     console.log('유통기한 : ' + expiryDate);
+
+    if (ingredient) {
+      // call edit api
+    }
+    else {
+      // call create api
+    }
   };
 
   return (
@@ -102,7 +110,7 @@ const AddIngredients = () => {
     >
       <TouchableWithoutFeedback onPress={handleOutsidePress}>
         <View style={styles.innerContainer}>
-          <Text style={styles.header}>재료 추가 하기</Text>
+          <Text style={styles.header}>{ingredient ? `재료 정보 수정` : `재료 추가 하기`}</Text>
           
           <View style={styles.formGroup}>
             <Text style={styles.label}>재료 명 :</Text>
@@ -171,7 +179,7 @@ const AddIngredients = () => {
             />
           </View>
           
-          <Button title="확인" onPress={submitIngredient} />
+          <Button title={ingredient ? `수정` : `확인`} onPress={submitIngredient} />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
