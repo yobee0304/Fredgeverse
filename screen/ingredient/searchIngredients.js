@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, Button } from 'react-native';
 
-const ingredients = [
+const initialIngredients = [
     { id: '1', name: '고등어', quantity: '500', unit: 'g', category: '생선', expiryDate: '2024-01-25' },
     { id: '2', name: '양파', quantity: '3', unit: 'ex', category: '야채', expiryDate: '2024-01-10' },
     { id: '3', name: '감자', quantity: '5', unit: 'ex', category: '야채', expiryDate: '2024-02-15' },
@@ -47,6 +47,28 @@ const formatQuantity = (quantity, unit) => {
 };
 
 const SearchIngredients = ({ navigation }) => {
+    const [ingredients, setIngredients] = useState(initialIngredients);
+
+    const handleDelete = (item) => {
+        Alert.alert(
+            "재료 삭제",
+            `"${item.name}"을(를) 삭제하시겠습니까?`,
+            [
+                {
+                    text: "취소",
+                    style: "cancel"
+                },
+                {
+                    text: "삭제",
+                    onPress: () => {
+                        setIngredients(prevIngredients => prevIngredients.filter(i => i.id !== item.id));
+                    },
+                    style: "destructive"
+                }
+            ]
+        );
+    };
+
     const renderIngredient = ({ item }) => (
         <TouchableOpacity onPress={() => navigation.navigate('DetailIngredient', { ingredient: item })}>
             <View
@@ -58,7 +80,12 @@ const SearchIngredients = ({ navigation }) => {
                     }
                 ]}
             >
-                <Text style={styles.ingredientName}>{item.name}</Text>
+                <View style={styles.header}>
+                    <Text style={styles.ingredientName}>{item.name}</Text>
+                    <TouchableOpacity onPress={() => handleDelete(item)}>
+                        <Text style={styles.deleteButton}>X</Text>
+                    </TouchableOpacity>
+                </View>
                 <Text style={styles.ingredientDetails}>수량: {formatQuantity(item.quantity, item.unit)}</Text>
                 <Text style={styles.ingredientDetails}>유통기한: {item.expiryDate}</Text>
             </View>
@@ -85,17 +112,20 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     ingredientContainer: {
-        flex: 1,
+        flexBasis: '48%', // 한 줄에 2개의 항목을 균등하게 유지
         borderWidth: 4, // 테두리를 더 두껍게 설정
         borderRadius: 8,
         padding: 10,
         margin: 5,
-        alignItems: 'center',
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start', // 상단으로 X 버튼을 더 붙이기
     },
     ingredientName: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 5,
         color: '#333', // 텍스트 색상
     },
     ingredientDetails: {
@@ -104,6 +134,12 @@ const styles = StyleSheet.create({
     },
     columnWrapper: {
         justifyContent: 'space-between',
+    },
+    deleteButton: {
+        fontSize: 16,
+        color: 'red',
+        fontWeight: 'bold',
+        marginTop: -5, // X 버튼을 상단으로 더 붙이기
     },
 });
 
