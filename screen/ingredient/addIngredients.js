@@ -179,7 +179,7 @@ const AddIngredients = ({ route }) => {
             />
           </View>
           
-          <Button title={ingredient ? `수정` : `확인`} onPress={submitIngredient} />
+          <Button title={ingredient ? `수정` : `추가`} onPress={submitIngredient} />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
