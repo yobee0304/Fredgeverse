@@ -1,20 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from './screen/home';
 import AddIngredients from './screen/ingredient/addIngredients';
-import SearchIngredients from './screen/ingredient/searchIngredients';
-import DetailIngredient from './screen/ingredient/detailIngredient'; // DetailIngredient 추가
-
-// 레시피 조회 화면
-const ViewRecipes = () => (
-  <View style={styles.center}>
-    <Text>레시피 조회하기</Text>
-  </View>
-);
+import ViewIngredients from './screen/ingredient/viewIngredients';
+import DetailIngredient from './screen/ingredient/detailIngredient';
+import ViewRecipes from './screen/recipe/viewRecipes';
 
 // 스택 네비게이터 정의
 const Stack = createStackNavigator();
@@ -22,8 +16,8 @@ const Stack = createStackNavigator();
 // 스택 네비게이터를 감싸는 컴포넌트
 const SearchStackNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="SearchIngredients">
-      <Stack.Screen name="SearchIngredients" component={SearchIngredients} options={{ title: '재료 조회' }} />
+    <Stack.Navigator initialRouteName="ViewIngredients">
+      <Stack.Screen name="ViewIngredients" component={ViewIngredients} options={{ title: '재료 조회' }} />
       <Stack.Screen name="DetailIngredient" component={DetailIngredient} options={{ title: '재료 상세 정보' }} />
       <Stack.Screen name="AddIngredients" component={AddIngredients} options={{ title: '재료 수정' }} />
     </Stack.Navigator>

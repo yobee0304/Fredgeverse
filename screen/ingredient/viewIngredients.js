@@ -46,7 +46,7 @@ const formatQuantity = (quantity, unit) => {
     return unit === 'ex' ? `${quantity}개` : `${quantity}${unit}`;
 };
 
-const SearchIngredients = ({ navigation }) => {
+const ViewIngredients = ({ navigation }) => {
     const [ingredients, setIngredients] = useState(initialIngredients);
 
     const handleDelete = (item) => {
@@ -143,4 +143,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SearchIngredients;
+export default ViewIngredients;
