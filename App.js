@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from './screen/home';
 import AddIngredients from './screen/ingredient/addIngredients';
@@ -15,9 +15,23 @@ const Stack = createStackNavigator();
 
 // 스택 네비게이터를 감싸는 컴포넌트
 const SearchStackNavigator = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      // 탭이 포커스를 얻었을 때 스택을 리셋
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'ViewIngredients' }],
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <Stack.Navigator initialRouteName="ViewIngredients">
-      <Stack.Screen name="ViewIngredients" component={ViewIngredients} options={{ title: '재료 조회' }} />
+      <Stack.Screen name="ViewIngredients" component={ViewIngredients} options={{ title: '재료 조회', animationEnabled: false }} />
       <Stack.Screen name="DetailIngredient" component={DetailIngredient} options={{ title: '재료 상세 정보' }} />
       <Stack.Screen name="AddIngredients" component={AddIngredients} options={{ title: '재료 수정' }} />
     </Stack.Navigator>
@@ -50,10 +64,27 @@ const App = () => {
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        <Tab.Screen name="Home" component={Home} options={{ title: '홈' }} />
-        <Tab.Screen name="Add Ingredients" component={AddIngredients} options={{ title: '재료 추가' }} initialParams={{ ingredient: null }} />
-        <Tab.Screen name="Search Ingredients" component={SearchStackNavigator} options={{ title: '재료 조회', headerShown: false}} />
-        <Tab.Screen name="View Recipes" component={ViewRecipes} options={{ title: '레시피 조회' }} />
+        <Tab.Screen 
+          name="Home" 
+          component={Home} 
+          options={{ title: '홈' }} 
+        />
+        <Tab.Screen 
+          name="Add Ingredients" 
+          component={AddIngredients} 
+          options={{ title: '재료 추가' }} 
+          initialParams={{ ingredient: null }} 
+        />
+        <Tab.Screen 
+          name="Search Ingredients" 
+          component={SearchStackNavigator} 
+          options={{ title: '재료 조회', headerShown: false }}
+        />
+        <Tab.Screen 
+          name="View Recipes" 
+          component={ViewRecipes} 
+          options={{ title: '레시피 조회' }} 
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
