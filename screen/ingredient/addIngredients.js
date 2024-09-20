@@ -110,8 +110,6 @@ const AddIngredients = ({ route }) => {
     >
       <TouchableWithoutFeedback onPress={handleOutsidePress}>
         <View style={styles.innerContainer}>
-          <Text style={styles.header}>{ingredient ? `재료 정보 수정` : `재료 추가 하기`}</Text>
-          
           <View style={styles.formGroup}>
             <Text style={styles.label}>재료 명 :</Text>
             <TextInput
